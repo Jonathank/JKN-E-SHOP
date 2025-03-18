@@ -1,0 +1,30 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/JKN_E_SHOP
+    username: jon
+    password: password
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      auto-commit: false  # Disable auto-commit for handling Large Objects
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        jdbc:
+          lob:
+            non_contextual_creation: true  # Helps with LOB handling in Hibernate
+
+server:
+  port: 9091
+
+api:
+  prefix: /api/v1
+
+auth:
+  token:
+    expiration: 3600000
+    jwtSecret: aBPKKAzUoIWllTnVkgnXv6g2OSR8ZB/XX5lVJmhRUsLKGYWODOXdFWCp9nmJ4IHGGw4W30eFrfq+lVM+AtRAMA==

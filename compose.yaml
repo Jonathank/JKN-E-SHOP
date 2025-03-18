@@ -1,0 +1,9 @@
+services:
+  postgres:
+    image: 'postgres:latest'
+    environment:
+      - 'POSTGRES_DB=JKN_E_SHOP'
+      - 'POSTGRES_PASSWORD=password'
+      - 'POSTGRES_USER=jon'
+    ports:
+      - '5432:5432'
