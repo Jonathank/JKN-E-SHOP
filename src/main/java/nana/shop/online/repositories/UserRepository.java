@@ -11,8 +11,8 @@ import nana.shop.online.model.User;
  * @author JONATHAN
  * 
  */
-public interface UserReposotory extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<User, Long> {
 
-    User findByUsername(String username);
+  //  User findByUsername(String username);
 
 }
