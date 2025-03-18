@@ -22,7 +22,7 @@ server:
   port: 9091
 
 api:
-  prefix: /api/v1
+  prefix: /JKN-Online?/api/Shop
 
 auth:
   token:
