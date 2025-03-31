@@ -1,3 +1,4 @@
+
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/JKN_E_SHOP
@@ -24,7 +25,9 @@ server:
 api:
   prefix: /JKN-Online/api/Shop
 
-auth:
-  token:
-    expiration: 3600000
-    jwtSecret: aBPKKAzUoIWllTnVkgnXv6g2OSR8ZB/XX5lVJmhRUsLKGYWODOXdFWCp9nmJ4IHGGw4W30eFrfq+lVM+AtRAMA==
+spring.mail.host: smtp.gmail.com
+spring.mail.port: 587
+spring.mail.username: kyeyunejonathan001@gmail.com
+spring.mail.password: lpbp xcaz ydfg wgfr
+spring.mail.properties.mail.smtp.auth: true
+spring.mail.properties.mail.smtp.starttls.enable: true
