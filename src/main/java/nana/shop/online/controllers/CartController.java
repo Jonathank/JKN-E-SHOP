@@ -50,7 +50,7 @@ public class CartController {
       return new ResponseEntity<>(cart, HttpStatus.OK);
       }
      
-     @PostMapping("/add-to-cart")
+     @PutMapping("/add-to-cart")
      public ResponseEntity<CartItems> addItemToCart(
 	     @RequestHeader("Authorization") String jwt,
 	     @RequestBody AddItemRequest req) throws UserException,ProductException{
@@ -65,7 +65,7 @@ public class CartController {
         return new ResponseEntity<>(cartItem, HttpStatus.ACCEPTED);
      }
      
-     @DeleteMapping("/remove-from-cart")
+     @DeleteMapping("/remove-from-cart/{cartItemId}")
      public ResponseEntity<ApiResponse> removeItemFromCart(
          @RequestHeader("Authorization") String jwt,
          @PathVariable Long cartItemId) throws UserException{
@@ -77,7 +77,7 @@ public class CartController {
 	    
      }
      
-     @PutMapping("/update-cart")
+     @PutMapping("/update-cart/{cartItemId}")
      public ResponseEntity<CartItems> updateCartItem(
 	     @RequestHeader("Authorization") String jwt,
 	     @PathVariable Long cartItemId,
@@ -85,7 +85,8 @@ public class CartController {
 	 User user = userService.findUserByJwtToken(jwt);
 	 CartItems updateCartItem = null;
 	 if(cartItem.getQuantity() > 0) {
-	   updateCartItem = cartItemService.updateCartItems(user.getId(), cartItemId, cartItem);
+	   updateCartItem = cartItemService
+		   .updateCartItems(user.getId(), cartItemId, cartItem);
 	 }
 	 ApiResponse response = new ApiResponse();
 	 response.setMessage("Item updated successfully");

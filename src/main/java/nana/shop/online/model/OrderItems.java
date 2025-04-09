@@ -39,7 +39,7 @@ public class OrderItems {
     private Product product;
     
     private String size;
-    private String quantity;
+    private int quantity;
     private Integer mrpPrice;
     private Integer sellingPrice;
     private Long userId;

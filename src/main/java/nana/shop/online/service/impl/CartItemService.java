@@ -29,10 +29,8 @@ public class CartItemService implements ICartItem {
 	
 	if (cartItemUser.getId().equals(userId)) {
 	    cartItemPresent.setQuantity(cartItems.getQuantity());
-	    cartItemPresent.setSize(cartItems.getSize());
 	    cartItemPresent.setMrpPrice(cartItemPresent.getQuantity() * cartItemPresent.getProduct().getMrpPrice());
 	    cartItemPresent.setSellingPrice(cartItemPresent.getQuantity() * cartItemPresent.getProduct().getSellingPrice());
-	    cartItemPresent.setProduct(cartItems.getProduct());
 
 	    return cartItemRepository.save(cartItemPresent);
 	} else {
