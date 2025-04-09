@@ -12,8 +12,6 @@ import nana.shop.online.model.Product;
 import nana.shop.online.model.User;
 import nana.shop.online.repositories.CartItemRepository;
 import nana.shop.online.repositories.CartRepository;
-import nana.shop.online.repositories.ProductRepository;
-import nana.shop.online.repositories.UserRepository;
 import nana.shop.online.service.ICart;
 
 /**
@@ -26,10 +24,6 @@ public class CartService implements ICart {
      private final CartItemRepository cartItemRepository;
    
      private final CartRepository cartRepository;
-    
-     private final ProductRepository productRepository;
-    
-     private final UserRepository userRepository;
 
     @Override
     public CartItems addCartItem(User user, Product product, String size, int quantity) {

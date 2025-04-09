@@ -3,6 +3,7 @@
  */
 package nana.shop.online.service;
 
+import nana.shop.online.exception.UserException;
 import nana.shop.online.model.User;
 
 /**
@@ -10,6 +11,6 @@ import nana.shop.online.model.User;
  */
 public interface IUserService {
 
-    User findUserByEmail(String email) throws Exception;
-    User findUserByJwtToken(String jwtToken) throws Exception;
+    User findUserByEmail(String email) throws UserException;
+    User findUserByJwtToken(String jwtToken) throws UserException;
 }
