@@ -32,7 +32,7 @@ public class PaymentOrder {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    private Long amount;
+    private Double amount;
     
     private PaymentOrderStatus status = PaymentOrderStatus.PENDING;
     

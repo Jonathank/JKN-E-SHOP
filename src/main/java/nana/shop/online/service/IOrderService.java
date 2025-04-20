@@ -24,5 +24,5 @@ public interface IOrderService {
     List<Order> sellersOrders(Long sellerId);
     Order updateOrderStatus(Long orderId,OrderStatus orderStatus);
     Order cancelOrder(Long orderId,User user);
-    OrderItems findById(Long orderItemId);
+    OrderItems getOrderItemById(Long orderItemId);
 }

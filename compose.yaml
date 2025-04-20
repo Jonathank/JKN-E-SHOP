@@ -1,9 +1,39 @@
+version: '3.8'
+
 services:
-  postgres:
+  db:
     image: 'postgres:latest'
+    container_name: postgres-1
     environment:
-      - 'POSTGRES_DB=JKN_E_SHOP'
-      - 'POSTGRES_PASSWORD=password'
-      - 'POSTGRES_USER=jon'
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USERNAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
     ports:
-      - '5432:5432'
+      - "${DB_PORT:-5432}:5432"
+    env_file:
+      - .env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - nana-network
+    restart: unless-stopped
+
+  redis:
+    image: redis:7
+    container_name: nana-redis
+    command: redis-server --requirepass ${REDIS_PASSWORD:-redis_password}
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - nana-network
+    restart: unless-stopped
+
+networks:
+  nana-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  redis_data:

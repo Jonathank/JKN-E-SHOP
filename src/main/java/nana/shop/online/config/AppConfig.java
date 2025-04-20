@@ -3,9 +3,14 @@ package nana.shop.online.config;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Properties;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
+import org.springframework.boot.web.server.WebServerFactoryCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -17,11 +22,24 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 
+import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
 
 @Configuration
 @EnableWebSecurity
 public class AppConfig {
+    
+    @Value("${APP_PORT}")
+    private int appPort;
+
+    @PostConstruct
+    public void init() {
+        System.out.println("🔍 APP_PORT is: " + appPort);
+    }
+    @Bean
+   WebServerFactoryCustomizer<TomcatServletWebServerFactory> customizer() {
+        return factory -> factory.setPort(appPort);
+    }
 
 @Bean
 SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -88,7 +106,14 @@ PasswordEncoder passwordEncoder() {
     return new RestTemplate();
 }
 
-
+@Bean
+ static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
+    PropertySourcesPlaceholderConfigurer configurer = new PropertySourcesPlaceholderConfigurer();
+    Properties properties = new Properties();
+    properties.setProperty("api.prefix", "/JKN-Online/api/Shop");
+    configurer.setProperties(properties);
+    return configurer;
+}
 
 //@Bean
 //public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {

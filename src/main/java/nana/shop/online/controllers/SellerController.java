@@ -20,15 +20,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
+import nana.shop.online.config.JwtProvider;
 import nana.shop.online.domain.AccountStatus;
 import nana.shop.online.exception.SellerException;
 import nana.shop.online.model.Seller;
+import nana.shop.online.model.SellerReport;
 import nana.shop.online.model.VerificationCode;
 import nana.shop.online.repositories.VerificationCodeRepository;
 import nana.shop.online.request.LoginRequest;
 import nana.shop.online.response.AuthResponse;
 import nana.shop.online.service.impl.AuthService;
 import nana.shop.online.service.impl.EmailService;
+import nana.shop.online.service.impl.SellerReportService;
 import nana.shop.online.service.impl.SellerService;
 import nana.shop.online.utils.OtpUtils;
 
@@ -44,7 +47,8 @@ public class SellerController {
     private final VerificationCodeRepository verificationCodeRepository;
     private final AuthService authService;
     private final EmailService emailService;
-    //private final JwtProvider jwtProvider;
+    private final SellerReportService sellerReportService;
+    private final JwtProvider jwtProvider;
     
     @PostMapping("/login")
     public ResponseEntity<AuthResponse>loginSeller (@RequestBody LoginRequest request)throws Exception{
@@ -112,13 +116,15 @@ public class SellerController {
    	
        }
     
-//    @GetMapping("/report/get")
-//    public ResponseEntity<SellerReport>getSellerReport(
-//	    @RequestHeader("Authorization") String jwt)throws Exception{
-// Seller seller = sellerService.getSellerProfile(jwt);
-//   	return new ResponseEntity<>(seller, HttpStatus.OK);
-//   	
-//       }
+    @GetMapping("/report/get")
+    public ResponseEntity<SellerReport>getSellerReport(
+	    @RequestHeader("Authorization") String jwt)throws Exception{
+ Seller seller = sellerService.getSellerProfile(jwt);
+SellerReport sellerReport = sellerReportService.getSellerReport(seller);
+ 
+   	return new ResponseEntity<>(sellerReport, HttpStatus.OK);
+   	
+       }
     
     @GetMapping("/all/get")
     public ResponseEntity<List<Seller>>getAllSellers(
