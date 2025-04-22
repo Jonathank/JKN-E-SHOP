@@ -2,16 +2,14 @@ version: '3.8'
 
 services:
   db:
-    image: 'postgres:latest'
-    container_name: postgres-1
+    image: 'postgres:15'
+    container_name: JKN_E_SHOP
     environment:
-      - POSTGRES_DB=${DB_NAME}
-      - POSTGRES_USER=${DB_USERNAME}
-      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=JKN_E_SHOP
+      - POSTGRES_USER=jon
+      - POSTGRES_PASSWORD=password
     ports:
-      - "${DB_PORT:-5432}:5432"
-    env_file:
-      - .env
+      - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
@@ -21,9 +19,9 @@ services:
   redis:
     image: redis:7
     container_name: nana-redis
-    command: redis-server --requirepass ${REDIS_PASSWORD:-redis_password}
+    command: redis-server --requirepass redis_password
     ports:
-      - "${REDIS_PORT:-6379}:6379"
+      - "6379:6379"
     volumes:
       - redis_data:/data
     networks:

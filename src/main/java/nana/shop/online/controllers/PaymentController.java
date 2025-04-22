@@ -24,6 +24,7 @@ import nana.shop.online.response.PaymentLinkResponse;
 import nana.shop.online.service.impl.PaymentService;
 import nana.shop.online.service.impl.SellerReportService;
 import nana.shop.online.service.impl.SellerService;
+import nana.shop.online.service.impl.TransactionService;
 import nana.shop.online.service.impl.UserService;
 
 /**
@@ -38,6 +39,7 @@ public class PaymentController {
     private final UserService userService;
     private final SellerService sellerService;
     private final SellerReportService sellerReportService;
+    private final TransactionService transactionService;
     
     @GetMapping("/{paymentId}")
     public ResponseEntity<ApiResponse>paymentSuccessHandler(
@@ -52,9 +54,10 @@ public class PaymentController {
 	
 	boolean paymentSuccess = paymentService.proceedPaymentOrder(
 		paymentOrder, paymentId, paymentLinkId);
+	
 	if(paymentSuccess) {
 	    for(Order order : paymentOrder.getOrders()) {
-	// transactionService.createTransaction(order)
+	        transactionService.createTransaction(order);
 		Seller seller = sellerService.getSellerById(order.getSellerId());
 		SellerReport sellerReport = sellerReportService.getSellerReport(seller);
 		sellerReport.setTotalOrders(sellerReport.getTotalOrders()+1);
@@ -65,8 +68,7 @@ public class PaymentController {
 	}
 	ApiResponse response = new ApiResponse();
 	response.setMessage("Payment Successful");
-	return new 
-		ResponseEntity<>(response, HttpStatus.ACCEPTED);
+	return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
 	
     }
 }

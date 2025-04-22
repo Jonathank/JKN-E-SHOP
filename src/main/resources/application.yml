@@ -1,15 +1,20 @@
 server:
   port: 9091
+
 spring:
-  config:
-     import: optional:file:.env
   datasource:
-    url: ${DB_URL}
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
+    url: jdbc:postgresql://localhost:5432/JKN_E_SHOP?currentSchema=public
+    username: jon
+    password: password
     driver-class-name: org.postgresql.Driver
-    hikari:
-      auto-commit: false
+  devtools:
+    restart:
+      enabled: false
+  docker:
+    compose:
+      file: compose.yaml
+      enabled: true
+      skip-ssl-validation: true
 
   jpa:
     hibernate:
@@ -22,22 +27,22 @@ spring:
         lob:
           non_contextual_creation: true
 
-  # Redis cache configuration
   cache:
     type: redis
     redis:
-      time-to-live: 3600000  # 1 hour
+      time-to-live: 3600000 # 1 hour
+
   data:
     redis:
-      host: ${REDIS_HOST:localhost}
-      port: ${REDIS_PORT:6379}
-      password: ${REDIS_PASSWORD:redis_password}
+      host: localhost
+      port: 6379
+      password: redis_password
 
   mail:
-    host: ${MAIL_HOST:smtp.gmail.com}
-    port: ${MAIL_PORT:587}
-    username: ${MAIL_USERNAME:kyeyunejonathan001@gmail.com}
-    password: ${MAIL_PASSWORD:lpbp xcaz ydfg wgfr}
+    host: smtp.gmail.com
+    port: 587
+    username: kyeyunejonathan001@gmail.com
+    password: lpbp xcaz ydfg wgfr
     properties:
       mail:
         smtp:
@@ -49,18 +54,19 @@ api:
   prefix: /JKN-Online/api/Shop
 
 stripe:
-  secret-key: ${STRIPE_SECRET_KEY}
-  publishable-key: ${STRIPE_PUBLISHABLE_KEY}
+  secret-key: sk_test_your_stripe_secret_key
+  publishable-key: pk_test_your_stripe_publishable_key
 
 razorpay:
-  key-id: ${RAZORPAY_KEY_ID}
-  secret: ${RAZORPAY_SECRET}
+  key-id: your_razorpay_key_id
+  secret: your_razorpay_secret
 
 management:
   endpoints:
     web:
       exposure:
         include: health,info,caches
+
 
 #
 #spring:

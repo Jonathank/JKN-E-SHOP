@@ -11,8 +11,10 @@ import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializationContext.SerializationPair;
 
+
 @Configuration
 @EnableCaching
+
 public class RedisConfig {
 
     @Value("${spring.cache.redis.time-to-live:3600000}")

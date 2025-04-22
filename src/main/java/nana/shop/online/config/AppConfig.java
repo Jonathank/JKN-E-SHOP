@@ -2,7 +2,6 @@
 package nana.shop.online.config;
 
 import java.util.Collections;
-import java.util.List;
 import java.util.Properties;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -24,18 +23,24 @@ import org.springframework.web.cors.CorsConfigurationSource;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class AppConfig {
     
-    @Value("${APP_PORT}")
-    private int appPort;
+    @Value("${server.port}")
+    private  int appPort;
 
     @PostConstruct
     public void init() {
         System.out.println("🔍 APP_PORT is: " + appPort);
+        if (appPort == 0) {
+            System.out.println("❌ The APP_PORT value is not injected properly");
+        }
     }
+
     @Bean
    WebServerFactoryCustomizer<TomcatServletWebServerFactory> customizer() {
         return factory -> factory.setPort(appPort);

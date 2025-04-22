@@ -9,6 +9,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.data.redis.core.RedisHash;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
@@ -34,6 +36,7 @@ import lombok.Setter;
 @EqualsAndHashCode
 @Entity
 @Table(name = "products")
+//@RedisHash("Product")
 public class Product implements Serializable {
     private static final long serialVersionUID = 1L;
 

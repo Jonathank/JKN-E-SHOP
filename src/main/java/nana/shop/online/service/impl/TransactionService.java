@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
+import nana.shop.online.exception.SellerException;
 import nana.shop.online.model.Order;
 import nana.shop.online.model.Seller;
 import nana.shop.online.model.Transaction;
@@ -21,27 +22,34 @@ import nana.shop.online.service.ITransactionService;
 @Service
 @RequiredArgsConstructor
 
-public class TransactinService implements ITransactionService{
+public class TransactionService implements ITransactionService{
 
     private final TransactionRepository transactionRepository;
     private final SellerRepository sellerRepository;
     
     @Override
-    public Transaction createTransaction(Order order) {
+    public Transaction createTransaction(Order order) throws SellerException {
+	Seller seller = sellerRepository.findById(order.getSellerId())
+		    .orElseThrow(() -> new SellerException("Seller not found"));
+
+	Transaction transaction = new Transaction();
+	transaction.setSeller(seller);
+	transaction.setCustomer(order.getUser());
+	transaction.setOrder(order);
 	
-	return null;
+	return transactionRepository.save(transaction);
     }
 
     @Override
-    public List<Transaction> geTransactionsBySellerId(Seller seller) {
-	// TODO Auto-generated method stub
-	return null;
+    public List<Transaction> getTransactionsBySellerId(Seller seller) {
+	
+	return transactionRepository.findBySellerId(seller.getId());
     }
 
     @Override
     public List<Transaction> getAllTransactions() {
-	// TODO Auto-generated method stub
-	return null;
+	
+	return transactionRepository.findAll();
     }
 
 }
