@@ -46,30 +46,63 @@ public class AppConfig {
         return factory -> factory.setPort(appPort);
     }
 
-@Bean
-SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-    // Configure session management to be stateless
-    http.sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-        // Configure authorization rules
-        .authorizeHttpRequests(authorize -> authorize
-            // Allow access to the signup endpoint
-            .requestMatchers("/JKN-Online/api/Shop/auth/**").permitAll()
-            .requestMatchers("/JKN-Online/api/Shop/seller/**").permitAll()
-            // Require authentication for any request matching the pattern "/JKN-Online/api/Shop/**"
-            .requestMatchers("/JKN-Online/api/Shop/**").authenticated()
-            // Allow all requests to the pattern "/JKN-Online/api/Shop/products/*/reviews"
-            .requestMatchers("/JKN-Online/api/Shop/products/*/reviews").permitAll()
-            // Allow all other requests
-            .anyRequest().permitAll())
-        // Add a custom JWT token validator filter before the basic authentication filter
-        .addFilterBefore(new JwtTokenValidator(), BasicAuthenticationFilter.class)
-        // Disable CSRF protection
-        .csrf(csrf -> csrf.disable())
-        // Enable CORS with a custom configuration source
-        .cors(cors -> cors.configurationSource(corsConfigurationSource()));
-    // Build and return the SecurityFilterChain
-    return http.build();
-}
+    @Bean
+    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http.sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .authorizeHttpRequests(authorize -> authorize
+                .requestMatchers(
+                    "/JKN-Online/api/Shop/auth/**",
+                    "/JKN-Online/api/Shop/products/**",
+                    "/JKN-Online/api/Shop/products/*/reviews",
+                    "/JKN-Online/api/Shop/category/**",
+                    "/JKN-Online/api/Shop/deals/**",
+                    "/JKN-Online/api/Shop/home/**",
+                    "/JKN-Online/api/Shop/coupon/validate/**"
+                ).permitAll()
+                .requestMatchers(
+                    "/JKN-Online/api/Shop/cart/**",
+                    "/JKN-Online/api/Shop/orders/**",
+                    "/JKN-Online/api/Shop/wishlist/**",
+                    "/JKN-Online/api/Shop/payment/**",
+                    "/JKN-Online/api/Shop/user/**",
+                    "/JKN-Online/api/Shop/address/**",
+                    "/JKN-Online/api/Shop/reviews/**",
+                    "/JKN-Online/api/Shop/transaction/**"
+                ).authenticated()
+                .requestMatchers("/JKN-Online/api/Shop/seller/**").hasRole("SELLER")
+                .requestMatchers("/JKN-Online/api/Shop/admin/**").hasRole("ADMIN")
+                .anyRequest().denyAll()
+            )
+            .addFilterBefore(new JwtTokenValidator(), BasicAuthenticationFilter.class)
+            .csrf(csrf -> csrf.disable())
+            .cors(cors -> cors.configurationSource(corsConfigurationSource()));
+        return http.build();
+    }
+
+//@Bean
+//SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//    // Configure session management to be stateless
+//    http.sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+//        // Configure authorization rules
+//        .authorizeHttpRequests(authorize -> authorize
+//            // Allow access to the signup endpoint
+//            .requestMatchers("/JKN-Online/api/Shop/auth/**").permitAll()
+//            .requestMatchers("/JKN-Online/api/Shop/seller/**").permitAll()
+//            // Require authentication for any request matching the pattern "/JKN-Online/api/Shop/**"
+//            .requestMatchers("/JKN-Online/api/Shop/**").authenticated()
+//            // Allow all requests to the pattern "/JKN-Online/api/Shop/products/*/reviews"
+//            .requestMatchers("/JKN-Online/api/Shop/products/*/reviews").permitAll()
+//            // Allow all other requests
+//            .anyRequest().permitAll())
+//        // Add a custom JWT token validator filter before the basic authentication filter
+//        .addFilterBefore(new JwtTokenValidator(), BasicAuthenticationFilter.class)
+//        // Disable CSRF protection
+//        .csrf(csrf -> csrf.disable())
+//        // Enable CORS with a custom configuration source
+//        .cors(cors -> cors.configurationSource(corsConfigurationSource()));
+//    // Build and return the SecurityFilterChain
+//    return http.build();
+//}
 
 
 
