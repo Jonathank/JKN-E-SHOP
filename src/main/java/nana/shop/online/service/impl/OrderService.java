@@ -148,7 +148,7 @@ public class OrderService implements IOrderService{
 	return orderRepository.save(order);    }
     
     @Override
-    public OrderItems findById(Long orderItemId) {
+    public OrderItems getOrderItemById(Long orderItemId) {
 	     // Find the order item by its ID
         return orderItemRepository.findById(orderItemId)
             .orElseThrow(() -> new OrderException("Order item not found"));

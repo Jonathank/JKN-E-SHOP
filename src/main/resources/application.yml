@@ -1,12 +1,20 @@
+server:
+  port: 9091
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/JKN_E_SHOP
+    url: jdbc:postgresql://localhost:5432/JKN_E_SHOP?currentSchema=public
     username: jon
     password: password
     driver-class-name: org.postgresql.Driver
-    hikari:
-      auto-commit: false  # Disable auto-commit for handling Large Objects
+  devtools:
+    restart:
+      enabled: false
+  docker:
+    compose:
+      file: compose.yaml
+      enabled: true
+      skip-ssl-validation: true
 
   jpa:
     hibernate:
@@ -15,19 +23,81 @@ spring:
     properties:
       hibernate:
         format_sql: true
-        jdbc:
-          lob:
-            non_contextual_creation: true  # Helps with LOB handling in Hibernate
+      jdbc:
+        lob:
+          non_contextual_creation: true
 
-server:
-  port: 9091
+  cache:
+    type: redis
+    redis:
+      time-to-live: 3600000 # 1 hour
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password: redis_password
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: kyeyunejonathan001@gmail.com
+    password: lpbp xcaz ydfg wgfr
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 
 api:
   prefix: /JKN-Online/api/Shop
 
-spring.mail.host: smtp.gmail.com
-spring.mail.port: 587
-spring.mail.username: kyeyunejonathan001@gmail.com
-spring.mail.password: lpbp xcaz ydfg wgfr
-spring.mail.properties.mail.smtp.auth: true
-spring.mail.properties.mail.smtp.starttls.enable: true
+stripe:
+  secret-key: sk_test_your_stripe_secret_key
+  publishable-key: pk_test_your_stripe_publishable_key
+
+razorpay:
+  key-id: your_razorpay_key_id
+  secret: your_razorpay_secret
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,caches
+
+
+#
+#spring:
+#  datasource:
+#    url: jdbc:postgresql://localhost:5432/JKN_E_SHOP
+#    username: jon
+#    password: password
+#    driver-class-name: org.postgresql.Driver
+#    hikari:
+#      auto-commit: false  # Disable auto-commit for handling Large Objects
+#
+#  jpa:
+#    hibernate:
+#      ddl-auto: update
+#    show-sql: true
+#    properties:
+#      hibernate:
+#        format_sql: true
+#        jdbc:
+#          lob:
+#            non_contextual_creation: true  # Helps with LOB handling in Hibernate
+#
+#server:
+#  port: 9091
+#
+#api:
+#  prefix: /JKN-Online/api/Shop
+#
+#spring.mail.host: smtp.gmail.com
+#spring.mail.port: 587
+#spring.mail.username: kyeyunejonathan001@gmail.com
+#spring.mail.password: lpbp xcaz ydfg wgfr
+#spring.mail.properties.mail.smtp.auth: true
+#spring.mail.properties.mail.smtp.starttls.enable: true
