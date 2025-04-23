@@ -1,73 +1,51 @@
-/**
- * 
- */
 package nana.shop.online.exception;
 
 import java.time.LocalDateTime;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 
-/**
- * @author JONATHAN
- */
 @ControllerAdvice
 public class GlobalException {
 
     @ExceptionHandler(SellerException.class)
-    public ResponseEntity<ErrorDetails> sellerExceptionHandler(
-	    SellerException se, WebRequest req){
-	ErrorDetails errorDetails = new ErrorDetails();
-	errorDetails.setError(se.getMessage());
-	errorDetails.setDetails(req.getDescription(false));
-	errorDetails.setTimestamp(LocalDateTime.now());
-	
-	return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
+    public ResponseEntity<ErrorDetails> handleSellerException(SellerException ex, WebRequest req) {
+        return buildErrorResponse(ex, req);
     }
-    
+
     @ExceptionHandler(ProductException.class)
-    public ResponseEntity<ErrorDetails> ProductExceptionHandler(
-	    SellerException se, WebRequest req){
-	ErrorDetails errorDetails = new ErrorDetails();
-	errorDetails.setError(se.getMessage());
-	errorDetails.setDetails(req.getDescription(false));
-	errorDetails.setTimestamp(LocalDateTime.now());
-	
-	return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
+    public ResponseEntity<ErrorDetails> handleProductException(ProductException ex, WebRequest req) {
+        return buildErrorResponse(ex, req);
     }
-    
+
     @ExceptionHandler(UserException.class)
-    public ResponseEntity<ErrorDetails> UserExceptionHandler(
-        UserException se, WebRequest req){
-	    ErrorDetails errorDetails = new ErrorDetails();
-	    errorDetails.setError(se.getMessage());
-	    errorDetails.setDetails(req.getDescription(false));
-	    errorDetails.setTimestamp(LocalDateTime.now());
-	    return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
+    public ResponseEntity<ErrorDetails> handleUserException(UserException ex, WebRequest req) {
+        return buildErrorResponse(ex, req);
     }
+
     @ExceptionHandler(OrderException.class)
-    public ResponseEntity<ErrorDetails> OrderExceptionHandler(
-        OrderException se, WebRequest req){
-        ErrorDetails errorDetails = new ErrorDetails();
-        errorDetails.setError(se.getMessage());
-        errorDetails.setDetails(req.getDescription(false));
-        errorDetails.setTimestamp(LocalDateTime.now());
-        return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
+    public ResponseEntity<ErrorDetails> handleOrderException(OrderException ex, WebRequest req) {
+        return buildErrorResponse(ex, req);
     }
-    
+
     @ExceptionHandler(PaymentOrderException.class)
-    public ResponseEntity<ErrorDetails> PaymentOrderExceptionHandler(
-        OrderException se, WebRequest req){
+    public ResponseEntity<ErrorDetails> handlePaymentOrderException(PaymentOrderException ex, WebRequest req) {
+        return buildErrorResponse(ex, req);
+    }
+
+    @ExceptionHandler(ReviewException.class)
+    public ResponseEntity<ErrorDetails> handleReviewException(ReviewException ex, WebRequest req) {
+        return buildErrorResponse(ex, req);
+    }
+
+   
+    private ResponseEntity<ErrorDetails> buildErrorResponse(Exception ex, WebRequest req) {
         ErrorDetails errorDetails = new ErrorDetails();
-        errorDetails.setError(se.getMessage());
+        errorDetails.setError(ex.getMessage());
         errorDetails.setDetails(req.getDescription(false));
         errorDetails.setTimestamp(LocalDateTime.now());
         return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
     }
-    
-    
-    
 }
