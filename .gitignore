@@ -32,6 +32,7 @@ build/
 ### VS Code ###
 .vscode/
 
+
 compose.yaml
 application.yml
 application-dev.yml
@@ -44,4 +45,8 @@ full docker app config.txt
 .txt*
 .txt
 
+
+
+.env
+full docker app config.txt
 
