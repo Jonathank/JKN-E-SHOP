@@ -7,6 +7,7 @@ import org.springframework.context.annotation.ComponentScan;
 import nana.shop.online.config.DotenvConfig;
 @ComponentScan
 @SpringBootApplication
+
 public class JknEShopApplication {
 
 	public static void main(String[] args) {
