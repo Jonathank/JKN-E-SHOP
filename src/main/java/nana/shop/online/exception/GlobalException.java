@@ -10,6 +10,10 @@ import org.springframework.web.context.request.WebRequest;
 @ControllerAdvice
 public class GlobalException {
 
+    @ExceptionHandler(HomeCategoryException.class)
+    public ResponseEntity<ErrorDetails> handleSellerException(HomeCategoryException ex, WebRequest req) {
+        return buildErrorResponse(ex, req);
+    }
     @ExceptionHandler(CouponException.class)
     public ResponseEntity<ErrorDetails> handleSellerException(CouponException ex, WebRequest req) {
         return buildErrorResponse(ex, req);
