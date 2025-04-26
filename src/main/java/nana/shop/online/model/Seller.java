@@ -3,6 +3,8 @@
  */
 package nana.shop.online.model;
 
+import java.io.Serializable;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
@@ -28,7 +30,8 @@ import nana.shop.online.domain.USER_ROLE;
 @NoArgsConstructor
 @EqualsAndHashCode
 @Entity
-public class Seller {
+public class Seller implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

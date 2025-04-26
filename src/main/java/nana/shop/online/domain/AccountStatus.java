@@ -1,6 +1,4 @@
-/**
- * 
- */
+
 package nana.shop.online.domain;
 
 /**
